@@ -12,12 +12,11 @@ export class Spotlight {
         this.position = position;
         this.rotation = rotation;
         this.color = color;
-        // this.context = context;
+        this.shadows = [];
+
         this.context = document.createElement('canvas').getContext('2d');
         this.context.canvas.width = context.canvas.width;
-        this.context.canvas.height = context.canvas.height;
-        this.beamDistance = this.beamDistance;
-        this.shadows = [];
+        this.context.canvas.height = context.canvas.height;        
     }
 
     pointAt(point) {
@@ -29,7 +28,7 @@ export class Spotlight {
             const rectPoints = rectangle.getCornerPoints();
 
             rectPoints.sort((a, b) => {
-                return Point.AngleBetweenPoints(a, this.position) - Point.AngleBetweenPoints(b, this.position);
+                return Math.abs(Point.AngleBetweenPoints(a, this.position)) - Math.abs(Point.AngleBetweenPoints(b, this.position));
             });
 
             const finalPoints = [rectPoints[0], rectPoints[3]];

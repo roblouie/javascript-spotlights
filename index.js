@@ -2,7 +2,7 @@ import { Spotlight } from "./spotlight.js";
 import { Point } from "./point.js";
 import { Rectangle } from "./rectangle.js";
 
-const context = document.querySelector('#final').getContext('2d');
+const context = document.querySelector('#canvas').getContext('2d');
 
 const rectangles = [
   new Rectangle(100, 100, 20, 20),
@@ -25,11 +25,12 @@ window.onload = () => {
 };
 
 async function draw() {
+  // draw background
   context.clearRect(0, 0, 500, 500);
   context.fillStyle = '#444';
   context.fillRect(0, 0, 500, 500);
 
-
+  // draw spotlights
   spotlights.forEach(async spotlight => {
     context.globalCompositeOperation = 'source-over';
     spotlight.pointAt(mousePosition);
@@ -39,6 +40,7 @@ async function draw() {
     context.drawImage(await spotlight.getBitmap(), 0, 0);
   });
   
+  // draw rectangles
   context.fillStyle = '#fff';
   rectangles.forEach(rectangle => {
     context.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
@@ -47,12 +49,12 @@ async function draw() {
   window.requestAnimationFrame(draw);
 }
 
-document.querySelector('#final').addEventListener('mousemove', (event) => {
+document.querySelector('#canvas').addEventListener('mousemove', (event) => {
   mousePosition.x = event.offsetX;
   mousePosition.y = event.offsetY;
 });
 
-document.querySelector('#final').addEventListener('touchmove', (event) => {
+document.querySelector('#canvas').addEventListener('touchmove', (event) => {
   mousePosition.x = event.offsetX;
   mousePosition.y = event.offsetY;
 });
