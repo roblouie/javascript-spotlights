@@ -12,7 +12,10 @@ export class Spotlight {
         this.position = position;
         this.rotation = rotation;
         this.color = color;
-        this.context = context;
+        // this.context = context;
+        this.context = document.createElement('canvas').getContext('2d');
+        this.context.canvas.width = context.canvas.width;
+        this.context.canvas.height = context.canvas.height;
         this.beamDistance = this.beamDistance;
         this.shadows = [];
     }
@@ -66,6 +69,11 @@ export class Spotlight {
             this.context.fill(shadow);
         });
         this.context.restore();
+    }
+
+    getBitmap() {
+        const imageData = this.context.getImageData(0, 0, this.context.canvas.width, this.context.canvas.height);
+        return createImageBitmap(imageData);
     }
 
     getShadowEdgeEnd(startingPoint) {
